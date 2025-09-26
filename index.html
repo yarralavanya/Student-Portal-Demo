@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Railway Booking Dashboard</title>
+  <style>
+    :root {
+      --accent:#0ea5a4;
+      --bg:#0f172a;
+      --sidebar:#0b1220;
+      --card:#101c2f;
+      --text:#e6eef6;
+    }
+    * { box-sizing:border-box; font-family:"Segoe UI",sans-serif; margin:0; padding:0; }
+    body {
+      display:flex; min-height:100vh; background:var(--bg); color:var(--text);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width:240px; background:var(--sidebar); padding:20px; display:flex; flex-direction:column;
+      border-right:1px solid rgba(255,255,255,0.05);
+    }
+    .logo {
+      font-size:1.3rem; font-weight:bold; color:var(--accent); margin-bottom:20px;
+    }
+    .nav { list-style:none; flex:1; }
+    .nav li { margin-bottom:12px; }
+    .nav a {
+      color:#cbd5e1; text-decoration:none; padding:10px 14px; display:block; border-radius:8px;
+      transition:0.2s;
+    }
+    .nav a:hover, .nav a.active { background:rgba(14,165,164,0.15); color:#fff; }
+
+    /* Main content */
+    .main {
+      flex:1; display:flex; flex-direction:column;
+    }
+    .topbar {
+      background:rgba(255,255,255,0.02); padding:14px 24px; border-bottom:1px solid rgba(255,255,255,0.05);
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .topbar h2 { margin:0; font-size:1.2rem; }
+    .user { font-size:0.9rem; color:#94a3b8; }
+
+    .content { padding:24px; overflow-y:auto; flex:1; }
+
+    /* Booking card reused */
+    .card {
+      background:var(--card); padding:20px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.05); margin-bottom:20px;
+    }
+    h3 { margin-bottom:12px; }
+
+    form .row { display:flex; gap:12px; margin-bottom:12px; }
+    label { font-size:0.8rem; color:#9fb7c5; }
+    input, select {
+      width:100%; padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.08);
+      background:transparent; color:#fff;
+    }
+    input:focus, select:focus { outline:1px solid var(--accent); }
+    button {
+      background:var(--accent); border:none; padding:10px 16px; border-radius:8px;
+      font-weight:600; color:#012; cursor:pointer;
+    }
+    button:hover { filter:brightness(1.1); }
+
+    .summary { margin-top:20px; }
+    .line { display:flex; justify-content:space-between; border-bottom:1px dashed rgba(255,255,255,0.08); padding:6px 0; }
+    .ticket { margin-top:12px; padding:12px; background:rgba(255,255,255,0.02); border-radius:8px; font-size:0.9rem; }
+    
+    @media(max-width:880px){
+      .sidebar { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">🚆 RailDash</div>
+    <ul class="nav">
+      <li><a href="#" class="active">Dashboard</a></li>
+      <li><a href="#">Book Ticket</a></li>
+      <li><a href="#">My Tickets</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Help</a></li>
+    </ul>
+    <div style="font-size:0.75rem;color:#64748b;">© 2025 Demo</div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="main">
+    <div class="topbar">
+      <h2>Dashboard</h2>
+      <div class="user">Welcome, Guest</div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <h3>2-Tier AC Ticket Booking</h3>
+        <form id="bookingForm">
+          <div class="row">
+            <div style="flex:1">
+              <label>From</label>
+              <input type="text" id="from" placeholder="City / Station" required />
+            </div>
+            <div style="flex:1">
+              <label>To</label>
+              <input type="text" id="to" placeholder="City / Station" required />
+            </div>
+          </div>
+          <div class="row">
+            <div style="flex:1">
+              <label>Date</label>
+              <input type="date" id="date" required />
+            </div>
+            <div style="flex:1">
+              <label>Train No.</label>
+              <input type="text" id="train" placeholder="12345 Express" />
+            </div>
+          </div>
+          <div class="row">
+            <div style="flex:1">
+              <label>Passengers</label>
+              <input type="number" id="pax" min="1" max="6" value="1" />
+            </div>
+            <div style="flex:1">
+              <label>Reservation</label>
+              <select id="resType">
+                <option>General</option>
+                <option>Tatkal</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" id="calcFare">Calculate Fare</button>
+          <button type="button" id="bookNow">Book Now</button>
+        </form>
+      </div>
+
+      <div class="card summary">
+        <h3>Booking Summary</h3>
+        <div class="line"><span>Route</span><span id="sumRoute">-</span></div>
+        <div class="line"><span>Train</span><span id="sumTrain">-</span></div>
+        <div class="line"><span>Date</span><span id="sumDate">-</span></div>
+        <div class="line"><span>Passengers</span><span id="sumPax">-</span></div>
+        <div class="line"><span>Reservation</span><span id="sumRes">-</span></div>
+        <div class="line"><span>Fare</span><span id="sumFare">₹0</span></div>
+        <div class="ticket" id="ticket" style="display:none">
+          <strong>E-Ticket (Demo)</strong>
+          <div id="ticketPreview"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const from = document.getElementById('from');
+    const to = document.getElementById('to');
+    const date = document.getElementById('date');
+    const train = document.getElementById('train');
+    const pax = document.getElementById('pax');
+    const resType = document.getElementById('resType');
+    const fareSpan = document.getElementById('sumFare');
+    const ticket = document.getElementById('ticket');
+    const ticketPreview = document.getElementById('ticketPreview');
+
+    document.getElementById('calcFare').addEventListener('click', ()=>{
+      if(!from.value || !to.value){ alert("Enter route"); return; }
+      let baseFare = 600; 
+      if(resType.value === 'Tatkal') baseFare += 200;
+      const total = baseFare * pax.value;
+      fareSpan.textContent = "₹"+total;
+      document.getElementById('sumRoute').textContent = from.value+" → "+to.value;
+      document.getElementById('sumTrain').textContent = train.value || "-";
+      document.getElementById('sumDate').textContent = date.value || "-";
+      document.getElementById('sumPax').textContent = pax.value;
+      document.getElementById('sumRes').textContent = resType.value;
+      ticket.style.display = "block";
+      ticketPreview.innerHTML = `
+        Route: ${from.value} → ${to.value}<br>
+        Train: ${train.value}<br>
+        Date: ${date.value}<br>
+        Passengers: ${pax.value}<br>
+        Fare: ₹${total}
+      `;
+    });
+    document.getElementById('bookNow').addEventListener('click', ()=>{
+      alert("✅ Booking Confirmed (Demo)");
+    });
+  </script>
+</body>
+</html>
