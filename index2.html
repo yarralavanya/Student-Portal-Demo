@@ -1,0 +1,362 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Innovation Hub — Launchpad for Ideas</title>
+  <!-- Tailwind CDN (for quick prototyping) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="A modern single-file Innovation Hub web app — submit ideas, browse projects, join events." />
+  <style>
+    /* Small custom styles (kept minimal since Tailwind is used) */
+    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
+    .accent { background-image: linear-gradient(90deg,#7C3AED,#06B6D4); }
+    .card-shadow { box-shadow: 0 6px 20px rgba(2,6,23,0.12); }
+  </style>
+</head>
+<body class="bg-gray-900 text-slate-100 antialiased">
+  <header class="sticky top-0 z-50 backdrop-blur-md glass border-b border-white/6">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center accent">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4H8l4-8v6h1l4 8h-6z" />
+          </svg>
+        </div>
+        <span class="text-lg font-semibold">Innovation Hub</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-4 text-sm">
+        <a href="#features" class="hover:underline">Features</a>
+        <a href="#projects" class="hover:underline">Projects</a>
+        <a href="#events" class="hover:underline">Events</a>
+        <a href="#team" class="hover:underline">Team</a>
+        <button id="openSubmit" class="ml-4 px-3 py-1.5 rounded-md bg-gradient-to-r from-violet-600 to-cyan-500 text-sm font-medium shadow-sm">Submit Idea</button>
+      </nav>
+
+      <div class="md:hidden">
+        <button id="mobileMenuBtn" class="p-2 rounded-md glass">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden border-t border-white/6">
+      <div class="px-4 py-3 flex flex-col gap-2">
+        <a href="#features">Features</a>
+        <a href="#projects">Projects</a>
+        <a href="#events">Events</a>
+        <a href="#team">Team</a>
+        <button id="openSubmit2" class="mt-2 px-3 py-1.5 rounded-md bg-gradient-to-r from-violet-600 to-cyan-500 text-sm font-medium">Submit Idea</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <!-- Hero -->
+    <section class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">Innovation Hub — where ideas meet builders</h1>
+        <p class="mt-4 text-slate-300 max-w-xl">Turn raw ideas into prototypes, find teammates, join events and get mentorship. Lightweight, collaborative and student-friendly.</p>
+        <div class="mt-6 flex gap-3">
+          <button id="openSubmitHero" class="px-5 py-3 rounded-lg bg-gradient-to-r from-violet-600 to-cyan-500 font-semibold shadow-lg">Submit Idea</button>
+          <a href="#projects" class="px-5 py-3 rounded-lg glass border border-white/6">Browse Projects</a>
+        </div>
+
+        <div class="mt-8 grid grid-cols-2 gap-3 text-sm text-slate-300">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full glass flex items-center justify-center">🚀</div>
+            <div>
+              <div class="font-semibold">20+ Launches</div>
+              <div class="text-xs">Projects accelerated</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full glass flex items-center justify-center">🤝</div>
+            <div>
+              <div class="font-semibold">Mentorship</div>
+              <div class="text-xs">Industry & faculty mentors</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="card-shadow rounded-2xl overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1554475901-4538ddfbccc1?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="team working" class="w-full h-80 object-cover" />
+        </div>
+        <div class="absolute -bottom-6 left-6 p-4 glass rounded-xl border border-white/6 w-72">
+          <div class="text-xs text-slate-300">Next Event</div>
+          <div class="font-semibold">Hackathon Sprint — Oct 10, 2025</div>
+          <div class="text-sm text-slate-400 mt-1">48-hour team building & prototype sprint.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="mt-16">
+      <h2 class="text-2xl font-bold">What you can do</h2>
+      <p class="text-slate-300 mt-2">Tools and workflows designed to make building easier.</p>
+
+      <div class="grid md:grid-cols-3 gap-6 mt-6">
+        <div class="p-5 rounded-xl glass border border-white/6">
+          <div class="text-3xl">💡</div>
+          <h3 class="mt-3 font-semibold">Submit Ideas</h3>
+          <p class="text-slate-300 text-sm mt-1">Quick form to capture problem, solution, and required skills. Save as draft.</p>
+        </div>
+
+        <div class="p-5 rounded-xl glass border border-white/6">
+          <div class="text-3xl">🔎</div>
+          <h3 class="mt-3 font-semibold">Discover Projects</h3>
+          <p class="text-slate-300 text-sm mt-1">Filter by domain, stage, or tags to find projects that match your interests.</p>
+        </div>
+
+        <div class="p-5 rounded-xl glass border border-white/6">
+          <div class="text-3xl">🧭</div>
+          <h3 class="mt-3 font-semibold">Mentor Matching</h3>
+          <p class="text-slate-300 text-sm mt-1">Request mentor help — our system suggests mentors based on skill tags.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="mt-12">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold">Projects</h2>
+        <div class="flex items-center gap-3">
+          <input id="search" type="search" placeholder="Search projects..." class="px-3 py-2 rounded-md bg-white/5 focus:outline-none" />
+          <select id="filterTag" class="px-3 py-2 rounded-md bg-white/5">
+            <option value="">All domains</option>
+            <option value="ai">AI/ML</option>
+            <option value="web">Web</option>
+            <option value="iot">IoT</option>
+            <option value="design">Design</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="projectsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <!-- JS will populate project cards -->
+      </div>
+
+      <div class="mt-6 text-center">
+        <button id="loadMore" class="px-4 py-2 rounded-md glass">Load more</button>
+      </div>
+    </section>
+
+    <!-- Events -->
+    <section id="events" class="mt-12">
+      <h2 class="text-2xl font-bold">Upcoming Events</h2>
+      <div class="mt-4 grid md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl glass border border-white/6">
+          <div class="font-semibold">Hackathon Sprint</div>
+          <div class="text-slate-300 text-sm">Oct 10–12, 2025 • On campus</div>
+        </div>
+        <div class="p-4 rounded-xl glass border border-white/6">
+          <div class="font-semibold">Prototype Clinic</div>
+          <div class="text-slate-300 text-sm">Nov 5, 2025 • Mentors available</div>
+        </div>
+        <div class="p-4 rounded-xl glass border border-white/6">
+          <div class="font-semibold">Demo Night</div>
+          <div class="text-slate-300 text-sm">Dec 15, 2025 • Pitch to judges</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section id="team" class="mt-12">
+      <h2 class="text-2xl font-bold">Core Team</h2>
+      <div class="mt-4 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-lg glass text-center">
+          <img src="https://i.pravatar.cc/100?img=12" alt="" class="mx-auto rounded-full" />
+          <div class="font-semibold mt-2">Priya</div>
+          <div class="text-xs text-slate-400">Program Lead</div>
+        </div>
+        <div class="p-4 rounded-lg glass text-center">
+          <img src="https://i.pravatar.cc/100?img=47" alt="" class="mx-auto rounded-full" />
+          <div class="font-semibold mt-2">Rahul</div>
+          <div class="text-xs text-slate-400">Mentor Coordinator</div>
+        </div>
+        <div class="p-4 rounded-lg glass text-center">
+          <img src="https://i.pravatar.cc/100?img=5" alt="" class="mx-auto rounded-full" />
+          <div class="font-semibold mt-2">Ananya</div>
+          <div class="text-xs text-slate-400">Design Lead</div>
+        </div>
+        <div class="p-4 rounded-lg glass text-center">
+          <img src="https://i.pravatar.cc/100?img=15" alt="" class="mx-auto rounded-full" />
+          <div class="font-semibold mt-2">Vikram</div>
+          <div class="text-xs text-slate-400">Partnerships</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-12 py-8 text-center text-sm text-slate-400">
+      © 2025 Innovation Hub — Built with ❤️ • <a href="#" class="underline">Privacy</a>
+    </footer>
+  </main>
+
+  <!-- Modal: Submit Idea -->
+  <div id="submitModal" class="fixed inset-0 hidden items-center justify-center z-50">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-2xl w-full p-6 rounded-2xl glass border border-white/6 z-10">
+      <div class="flex items-start justify-between">
+        <h3 class="text-xl font-semibold">Submit your idea</h3>
+        <button id="closeModal" class="p-2 rounded-md">✕</button>
+      </div>
+
+      <form id="ideaForm" class="mt-4 grid gap-3">
+        <input id="ideaTitle" type="text" placeholder="Project title" required class="px-3 py-2 rounded-md bg-white/5" />
+        <textarea id="ideaDesc" placeholder="Describe the problem & solution" rows="4" required class="px-3 py-2 rounded-md bg-white/5"></textarea>
+        <input id="ideaTags" placeholder="Tags (comma separated) e.g. ai, healthcare" class="px-3 py-2 rounded-md bg-white/5" />
+        <div class="flex gap-2 justify-end">
+          <button type="button" id="saveDraft" class="px-4 py-2 rounded-md glass">Save draft</button>
+          <button type="submit" class="px-4 py-2 rounded-md bg-gradient-to-r from-violet-600 to-cyan-500">Publish</button>
+        </div>
+      </form>
+
+      <div id="submitMessage" class="text-sm text-slate-300 mt-3"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- Basic interactivity and in-browser data storage ---
+    const modal = document.getElementById('submitModal');
+    const openButtons = [document.getElementById('openSubmit'), document.getElementById('openSubmitHero'), document.getElementById('openSubmit2')];
+    openButtons.forEach(b => b && b.addEventListener('click', () => { modal.classList.remove('hidden'); modal.classList.add('flex'); }));
+    document.getElementById('closeModal').addEventListener('click', () => { modal.classList.add('hidden'); modal.classList.remove('flex'); });
+
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn && mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    // Simple projects dataset (seed)
+    const seedProjects = [
+      { id: 1, title: 'Smart Dustbin', desc: 'IoT-based sensor bin to optimize campus waste collection', tags: ['iot','hardware'], stage: 'prototype' },
+      { id: 2, title: 'Campus Chatbot', desc: 'Information assistant for students using LLMs', tags: ['ai','web'], stage: 'alpha' },
+      { id: 3, title: 'E-Notice Board', desc: 'Community noticeboard with moderation', tags: ['web','design'], stage: 'beta' },
+      { id: 4, title: 'PlantCare App', desc: 'ML model to predict plant water needs', tags: ['ai','mobile'], stage: 'idea' }
+    ];
+
+    // Load projects from localStorage or seed
+    function loadProjects() {
+      const raw = localStorage.getItem('ih_projects');
+      let projects = raw ? JSON.parse(raw) : seedProjects;
+      localStorage.setItem('ih_projects', JSON.stringify(projects));
+      return projects;
+    }
+
+    function renderProjects(list) {
+      const grid = document.getElementById('projectsGrid');
+      grid.innerHTML = '';
+      if (!list.length) {
+        grid.innerHTML = '<div class="col-span-3 text-slate-400">No projects found.</div>';
+        return;
+      }
+      list.forEach(p => {
+        const el = document.createElement('div');
+        el.className = 'p-4 rounded-xl glass border border-white/6';
+        el.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="font-semibold">${escapeHtml(p.title)}</div>
+              <div class="text-xs text-slate-400 mt-1">${escapeHtml(p.desc)}</div>
+              <div class="mt-3 flex flex-wrap gap-2">${p.tags.map(t=>`<span class=\"text-xs bg-white/6 rounded-full px-2 py-1\">${escapeHtml(t)}</span>`).join('')}</div>
+            </div>
+            <div class="text-xs text-slate-400">${escapeHtml(p.stage)}</div>
+          </div>
+        `;
+        grid.appendChild(el);
+      });
+    }
+
+    // Search/filter
+    const search = document.getElementById('search');
+    const filterTag = document.getElementById('filterTag');
+
+    function applyFilters() {
+      const q = (search.value || '').toLowerCase();
+      const tag = (filterTag.value || '').toLowerCase();
+      const projects = loadProjects();
+      const filtered = projects.filter(p => {
+        const inTitle = p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+        const tagMatch = !tag || p.tags.includes(tag) || p.tags.some(t=>t.toLowerCase()===tag);
+        return inTitle && tagMatch;
+      });
+      renderProjects(filtered);
+    }
+
+    search.addEventListener('input', applyFilters);
+    filterTag.addEventListener('change', applyFilters);
+
+    // Initial render
+    renderProjects(loadProjects());
+
+    // Idea form handling
+    document.getElementById('ideaForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('ideaTitle').value.trim();
+      const desc = document.getElementById('ideaDesc').value.trim();
+      const tags = document.getElementById('ideaTags').value.split(',').map(s=>s.trim()).filter(Boolean);
+      if (!title || !desc) return;
+      const projects = loadProjects();
+      const newId = projects.length ? Math.max(...projects.map(p=>p.id)) + 1 : 1;
+      const newProject = { id: newId, title, desc, tags, stage: 'idea' };
+      projects.unshift(newProject);
+      localStorage.setItem('ih_projects', JSON.stringify(projects));
+      document.getElementById('submitMessage').textContent = 'Idea published locally. You can connect this to a backend (Firebase) in the code comments.';
+      renderProjects(projects);
+      document.getElementById('ideaForm').reset();
+      setTimeout(()=>{ modal.classList.add('hidden'); modal.classList.remove('flex'); }, 800);
+    });
+
+    document.getElementById('saveDraft').addEventListener('click', () => {
+      const title = document.getElementById('ideaTitle').value.trim();
+      const desc = document.getElementById('ideaDesc').value.trim();
+      const tags = document.getElementById('ideaTags').value;
+      const draft = { title, desc, tags, savedAt: new Date().toISOString() };
+      localStorage.setItem('ih_draft', JSON.stringify(draft));
+      document.getElementById('submitMessage').textContent = 'Draft saved in your browser.';
+    });
+
+    // Utility: basic HTML escape
+    function escapeHtml(str){ return String(str).replace(/[&<>\"]/g, (s)=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]) ); }
+
+    // Load any draft
+    (function loadDraft(){
+      const d = localStorage.getItem('ih_draft');
+      if (!d) return;
+      try{
+        const draft = JSON.parse(d);
+        document.getElementById('ideaTitle').value = draft.title || '';
+        document.getElementById('ideaDesc').value = draft.desc || '';
+        document.getElementById('ideaTags').value = draft.tags || '';
+      }catch(e){/* ignore */}
+    })();
+
+    // Load more button (for demonstration — duplicates seed)
+    document.getElementById('loadMore').addEventListener('click', ()=>{
+      const projects = loadProjects();
+      const more = projects.slice(0, projects.length).map(p => ({...p, id: p.id + Date.now()%10000}));
+      const merged = projects.concat(more);
+      localStorage.setItem('ih_projects', JSON.stringify(merged));
+      renderProjects(merged);
+    });
+
+    // Accessibility: close modal on ESC
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') { modal.classList.add('hidden'); modal.classList.remove('flex'); } });
+
+    // --- Notes for extension / production ---
+    /*
+      To connect this to Firebase or any backend:
+      1) Add Firebase SDK scripts and initialize with your project config.
+      2) Replace localStorage calls with Firestore write/read operations (with security rules).
+      3) Add authentication for mentor/admin flows (Firebase Auth or OAuth).
+      4) Consider pagination for project lists and a file upload service for images.
+      5) Move Tailwind to a build pipeline for production, and reduce inline scripts in separate JS files.
+    */
+  </script>
+</body>
+</html>
